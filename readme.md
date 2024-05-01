@@ -45,8 +45,8 @@ The security measures provided by this server are implemented at the application
 First, clone the repository to your local machine and change into the project directory:
 
 ```bash
-git clone https://github.com/Ilansos/NistCVEs2Slack.git
-cd NistCVEs2Slack
+git clone https://github.com/Ilansos/flask_api_server.git
+cd flask_api_server.git
 ```
 
 ## Install Docker
