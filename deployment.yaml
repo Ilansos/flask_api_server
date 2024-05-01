@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      containers:
+        - name: api-server
+          image: localhost:32000/api_server:v1  # Replace with your Docker image
+          ports:
+            - containerPort: 5000
+          env:
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: JWT_SECRET_KEY
+            - name: secret
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: secret
+            - name: backend_secret
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: backend_secret
+            - name: user1 
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: user1 # Modify this with the real username
+            - name: user2
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: user2 # Modify this with the real username
+          volumeMounts:
+            - name: ip-lists
+              mountPath: /ip-lists
+          command: ["python"]
+          args: ["api_server.py"]
+      volumes:
+        - name: ip-lists
+          configMap:
+            name: ip-lists
